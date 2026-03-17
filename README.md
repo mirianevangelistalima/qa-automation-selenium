@@ -2,9 +2,12 @@
 
 Automação de testes end-to-end simulando fluxo real de e-commerce (login → produtos → carrinho).
 
+## 🚧 Projeto em construção
+Este projeto está em evolução contínua, com foco em simular cenários reais de automação de testes (login, produtos, carrinho e checkout).
+
 ---
 
-## 🎯 Objetivo
+## 🎯 Objetivo do projeto
 
 - Demonstrar na prática:
 - Estrutura com Page Object Model
