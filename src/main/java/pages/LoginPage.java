@@ -4,30 +4,30 @@ import core.BasePage;
 import org.openqa.selenium.By;
 
 public class LoginPage extends BasePage {
-    private final By inptUserName = By.id("user-name");
-    private final By inptPassword = By.id("password");
+    private final By inputUserName = By.id("user-name");
+    private final By inputPassword = By.id("password");
     private final By inptButtonLogin = By.id("login-button");
     private final By mensagemErro = By.xpath("//h3[@data-test='error']");
     private final By botaoFecharErro = By.cssSelector("[data-test='error-button']");
 
-
-    public void cliqueUserName() {
-        findElement(inptUserName).click();
-    }
-
     public void preencherUserName(String userName) {
-        findElement(inptUserName).sendKeys(userName);
-    }
-
-    public void cliquePassword() {
-        findElement(inptPassword).click();
+        findElement(inputUserName).click();
+        findElement(inputUserName).clear();
+        findElement(inputUserName).sendKeys(userName);
     }
 
     public void preencherPassword(String password) {
-        findElement(inptPassword).sendKeys(password);
+        findElement(inputPassword).click();
+        findElement(inputPassword).clear();
+        findElement(inputPassword).sendKeys(password);
     }
 
-    public void cliqueButtonLogin() {
+    public void tentarLogin(String userName, String password) {
+        preencherUserName(userName);
+        preencherPassword(password);
+        clicarLogin();
+    }
+    public void clicarLogin() {
         findElement(inptButtonLogin).click();
     }
 
@@ -36,6 +36,9 @@ public class LoginPage extends BasePage {
     }
 
     public void cliqueButtonErro() {
+        findElement(botaoFecharErro).click();
+    }
+    public void fecharMensagemErro() {
         findElement(botaoFecharErro).click();
     }
 }

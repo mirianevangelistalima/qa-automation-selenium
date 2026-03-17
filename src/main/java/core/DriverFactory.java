@@ -1,32 +1,31 @@
 package core;
 
-import io.github.bonigarcia.wdm.WebDriverManager;
+import org.openqa.selenium.Dimension;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 
 public class DriverFactory {
+
     private static WebDriver driver;
-    private DriverFactory(){}
 
-    public static WebDriver getDriver(){
+    private DriverFactory() {
+    }
+
+    public static WebDriver getDriver() {
         if (driver == null) {
-            WebDriverManager.chromedriver().setup();
-
             driver = new ChromeDriver();
-            driver.manage().window().maximize();
+            // hard code pois está dando bug com maximize por meu SO ser linux
+            driver.manage().window().setSize(new Dimension(1920, 1080));
         }
         return driver;
     }
 
-    /*
-    * Fecha o driver
-    */
-public static void killDriver(){
+    public static void killDriver() {
         if (driver != null) {
             driver.quit();
             driver = null;
         }
-}
+    }
 
 
 }
