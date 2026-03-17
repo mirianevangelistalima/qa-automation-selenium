@@ -1,9 +1,6 @@
 package tests;
-
 import org.junit.jupiter.api.*;
 import pages.LoginPage;
-
-import static core.DriverFactory.getDriver;
 
 @TestMethodOrder(MethodOrderer.MethodName.class)
 public class LoginTest extends BaseTest {
@@ -24,6 +21,7 @@ public class LoginTest extends BaseTest {
         loginPage.preencherPassword(senhaInexistente);
         loginPage.cliqueButtonLogin();
         Assertions.assertEquals(mensagemErroUsuarioSenhaIncorreta, loginPage.getMensagemErro());
+        deveFecharModalErro();
     }
 
     @Test
@@ -37,15 +35,11 @@ public class LoginTest extends BaseTest {
         loginPage.preencherPassword("");
         loginPage.cliqueButtonLogin();
         Assertions.assertEquals(mensagemErroUsuarioSenhaObrigatorio, loginPage.getMensagemErro());
-     //   deveFecharModalErro();
+        deveFecharModalErro();
     }
 
-//    @Test
-//    @Order(3)
     private void deveFecharModalErro() {
         loginPage.cliqueButtonErro();
     }
-//    public void deveFazerLoginComCredenciaisValidas() {
-//        loginPage.cliqueUserName();
-//    }
+
 }

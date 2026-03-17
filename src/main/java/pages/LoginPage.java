@@ -8,7 +8,7 @@ public class LoginPage extends BasePage {
     private final By inptPassword = By.id("password");
     private final By inptButtonLogin = By.id("login-button");
     private final By mensagemErro = By.xpath("//h3[@data-test='error']");
-    private final By buttonErro = By.xpath("//button[@data-test='error']");
+    private final By botaoFecharErro = By.cssSelector("[data-test='error-button']");
 
 
     public void cliqueUserName() {
@@ -36,7 +36,7 @@ public class LoginPage extends BasePage {
     }
 
     public void cliqueButtonErro() {
-        findElement(buttonErro).click();
+        findElement(botaoFecharErro).click();
     }
 }
 
