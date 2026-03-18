@@ -57,66 +57,40 @@ public class LoginTest extends BaseTest {
 
     @Test
     public void t05_deveFazerLoginComCredenciaisValidasStandardUser() {
-        loginComoStandardUser();
+        loginPage.loginComoStandardUser();
+        Assertions.assertTrue(loginPage.estaNaPaginaDeProdutos());
     }
 
     @Test
     public void t06_naoDeveLogarComLockedOutUser() {
-        naoDeveLogarComoLockedOutUser();
-    }
-
-    @Test
-    public void t07_deveFazerLoginComCredenciaisValidasProblemUser() {
-        loginComoProblemUser();
-    }
-
-    @Test
-    public void t08_deveFazerLoginComCredenciaisValidasPerformanceGlitchUser() {
-        loginComoPerformanceGlitchUser();
-    }
-
-    @Test
-    public void t09_deveFazerLoginComCredenciaisValidasErrorUser() {
-        loginComoErrorUser();
-    }
-
-    @Test
-    public void t10_deveFazerLoginComCredenciaisValidasVisualUser() {
-        loginComoVisualUser();
-    }
-
-    public void loginComoStandardUser() {
-        loginPage.tentarLogin(Usuarios.STANDARD_USER, Usuarios.PASSWORD);
-        validarUrl();
-    }
-
-    public void naoDeveLogarComoLockedOutUser() {
-        loginPage.tentarLogin(Usuarios.LOCKED_OUT_USER, Usuarios.PASSWORD);
-
+        loginPage.naoDeveLogarComoLockedOutUser();
         var mensagemEsperada = "Epic sadface: Sorry, this user has been locked out.";
         Assertions.assertEquals(mensagemEsperada, loginPage.getMensagemErro());
         loginPage.fecharMensagemErro();
     }
 
-    public void loginComoProblemUser() {
-        loginPage.tentarLogin(Usuarios.PROBLEM_USER, Usuarios.PASSWORD);
-        validarUrl();
-    }
-    public void loginComoPerformanceGlitchUser() {
-        loginPage.tentarLogin(Usuarios.PERFORMANCE_GLITCH_USER, Usuarios.PASSWORD);
-        validarUrl();
-    }
-    public void loginComoErrorUser() {
-        loginPage.tentarLogin(Usuarios.ERROR_USER, Usuarios.PASSWORD);
-        validarUrl();
-    }
-    public void loginComoVisualUser() {
-        loginPage.tentarLogin(Usuarios.VISUAL_USER, Usuarios.PASSWORD);
-        validarUrl();
-    }
-    public void validarUrl(){
-        String urlAtual = getDriver().getCurrentUrl();
-        Assertions.assertTrue(urlAtual.contains("inventory.html"));
+    @Test
+    public void t07_deveFazerLoginComCredenciaisValidasProblemUser() {
+        loginPage.loginComoProblemUser();
+        Assertions.assertTrue(loginPage.estaNaPaginaDeProdutos());
     }
 
+    @Test
+    public void t08_deveFazerLoginComCredenciaisValidasPerformanceGlitchUser() {
+        loginPage.loginComoPerformanceGlitchUser();
+        Assertions.assertTrue(loginPage.estaNaPaginaDeProdutos());
+    }
+
+    @Test
+    public void t09_deveFazerLoginComCredenciaisValidasErrorUser() {
+        loginPage.loginComoErrorUser();
+        Assertions.assertTrue(loginPage.estaNaPaginaDeProdutos());
+
+    }
+
+    @Test
+    public void t10_deveFazerLoginComCredenciaisValidasVisualUser() {
+        loginPage.loginComoVisualUser();
+        Assertions.assertTrue(loginPage.estaNaPaginaDeProdutos());
+    }
 }
