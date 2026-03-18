@@ -1,13 +1,13 @@
-# 💹 QA Automação-Selenium+Java
+#  QA Automação-Selenium+Java
 
 Automação de testes end-to-end simulando fluxo real de e-commerce (login → produtos → carrinho).
 
-## 🚧 Projeto em construção
+##  Projeto em construção
 Este projeto está em evolução contínua, com foco em simular cenários reais de automação de testes (login, produtos, carrinho e checkout).
 
 ---
 
-## 🎯 Objetivo do projeto
+##  Objetivo do projeto
 
 - Demonstrar na prática:
 - Estrutura com Page Object Model
@@ -16,7 +16,7 @@ Este projeto está em evolução contínua, com foco em simular cenários reais 
 
 ---
 
-## 💾 Tecnologia
+##  Tecnologia
 
 - [Java 17](https://www.oracle.com/java/)
 - [Gradle](https://gradle.org/)
@@ -25,7 +25,7 @@ Este projeto está em evolução contínua, com foco em simular cenários reais 
 
 ---
 
-## 📌 O que esse projeto cobre:
+##  O que esse projeto cobre:
 
 -  Login (sucesso e falhas)
 -  Validação de navegação
@@ -34,7 +34,7 @@ Este projeto está em evolução contínua, com foco em simular cenários reais 
 
 ---
 
-## 📂 Estrutura:
+##  Estrutura:
 - src
 - ├─ main/java
 - │   ├─ core    # Driver, BasePage, BaseTest
@@ -44,12 +44,11 @@ Este projeto está em evolução contínua, com foco em simular cenários reais 
 -     └─ tests   # Testes automatizados
 ---
 
-## ▶️ Como rodar
+##  Como rodar
 
 ./gradlew test
 
-### 👩‍💻 Autora
+### Autora
 
 - Mirian Evangelista de Lima
 - QA Analyst
-- 
