@@ -2,6 +2,7 @@ package tests;
 
 import org.junit.jupiter.api.*;
 import pages.LoginPage;
+import utils.Usuarios;
 
 import static core.DriverFactory.getDriver;
 
@@ -11,9 +12,7 @@ public class LoginTest extends BaseTest {
     LoginPage loginPage = new LoginPage();
 
     @Test
-    public void naoDeveLogarComCredenciaisInvalidas() {
-        LoginPage loginPage = new LoginPage();
-
+    public void t01_naoDeveLogarComCredenciaisInvalidas() {
         var usuarioInexistente = "TESTE";
         var senhaInexistente = "TESTE123";
         var mensagemEsperada = "Epic sadface: Username and password do not match any user in this service";
@@ -26,9 +25,7 @@ public class LoginTest extends BaseTest {
     }
 
     @Test
-    public void naoDeveLogarComCredenciaisVazias() {
-        LoginPage loginPage = new LoginPage();
-
+    public void t02_naoDeveLogarComCredenciaisVazias() {
         var mensagemEsperada = "Epic sadface: Username is required";
 
         loginPage.tentarLogin("", "");
@@ -39,8 +36,7 @@ public class LoginTest extends BaseTest {
     }
 
     @Test
-    public void naoDeveLogarSemUsuario() {
-        LoginPage loginPage = new LoginPage();
+    public void t03_naoDeveLogarSemUsuario() {
         var mensagemEsperada = "Epic sadface: Username is required";
 
         loginPage.tentarLogin("", "secret_sauce");
@@ -51,70 +47,76 @@ public class LoginTest extends BaseTest {
     }
 
     @Test
-    public void naoDeveLogarSemSenha() {
-        LoginPage loginPage = new LoginPage();
-
+    public void t04_naoDeveLogarSemSenha() {
         var mensagemEsperada = "Epic sadface: Password is required";
 
         loginPage.tentarLogin("standard_user", "");
-
         Assertions.assertEquals(mensagemEsperada, loginPage.getMensagemErro());
-
         loginPage.fecharMensagemErro();
     }
 
     @Test
-    public void deveFazerLoginComCredenciaisValidasStandardUser() {
-        LoginPage loginPage = new LoginPage();
-        loginPage.tentarLogin("standard_user", "secret_sauce");
-
-        String urlAtual = getDriver().getCurrentUrl();
-        Assertions.assertTrue(urlAtual.contains("https://www.saucedemo.com/inventory.html"));
-    }
-    @Test
-    public void deveFazerLoginComCredenciaisValidasLockedOutUser() {
-        LoginPage loginPage = new LoginPage();
-        loginPage.tentarLogin("locked_out_user", "secret_sauce");
-
-        String urlAtual = getDriver().getCurrentUrl();
-        Assertions.assertTrue(urlAtual.contains("https://www.saucedemo.com/inventory.html"));
+    public void t05_deveFazerLoginComCredenciaisValidasStandardUser() {
+        loginComoStandardUser();
     }
 
     @Test
-    public void deveFazerLoginComCredenciaisValidasProblemUser() {
-        LoginPage loginPage = new LoginPage();
-        loginPage.tentarLogin("problem_user", "secret_sauce");
-
-        String urlAtual = getDriver().getCurrentUrl();
-        Assertions.assertTrue(urlAtual.contains("https://www.saucedemo.com/inventory.html"));
+    public void t06_naoDeveLogarComLockedOutUser() {
+        naoDeveLogarComoLockedOutUser();
     }
 
     @Test
-    public void deveFazerLoginComCredenciaisValidasPerformanceGlitchUser() {
-        LoginPage loginPage = new LoginPage();
-        loginPage.tentarLogin("performance_glitch_user", "secret_sauce");
-
-        String urlAtual = getDriver().getCurrentUrl();
-        Assertions.assertTrue(urlAtual.contains("https://www.saucedemo.com/inventory.html"));
+    public void t07_deveFazerLoginComCredenciaisValidasProblemUser() {
+        loginComoProblemUser();
     }
 
     @Test
-    public void deveFazerLoginComCredenciaisValidasErrorUser() {
-        LoginPage loginPage = new LoginPage();
-        loginPage.tentarLogin("error_user", "secret_sauce");
-
-        String urlAtual = getDriver().getCurrentUrl();
-        Assertions.assertTrue(urlAtual.contains("https://www.saucedemo.com/inventory.html"));
+    public void t08_deveFazerLoginComCredenciaisValidasPerformanceGlitchUser() {
+        loginComoPerformanceGlitchUser();
     }
 
     @Test
-    public void deveFazerLoginComCredenciaisValidasVisualUser() {
-        LoginPage loginPage = new LoginPage();
-        loginPage.tentarLogin("visual_user", "secret_sauce");
-
-        String urlAtual = getDriver().getCurrentUrl();
-        Assertions.assertTrue(urlAtual.contains("https://www.saucedemo.com/inventory.html"));
+    public void t09_deveFazerLoginComCredenciaisValidasErrorUser() {
+        loginComoErrorUser();
     }
 
+    @Test
+    public void t10_deveFazerLoginComCredenciaisValidasVisualUser() {
+        loginComoVisualUser();
+    }
+
+    public void loginComoStandardUser() {
+        loginPage.tentarLogin(Usuarios.STANDARD_USER, Usuarios.PASSWORD);
+        validarUrl();
+    }
+
+    public void naoDeveLogarComoLockedOutUser() {
+        loginPage.tentarLogin(Usuarios.LOCKED_OUT_USER, Usuarios.PASSWORD);
+
+        var mensagemEsperada = "Epic sadface: Sorry, this user has been locked out.";
+        Assertions.assertEquals(mensagemEsperada, loginPage.getMensagemErro());
+        loginPage.fecharMensagemErro();
+    }
+
+    public void loginComoProblemUser() {
+        loginPage.tentarLogin(Usuarios.PROBLEM_USER, Usuarios.PASSWORD);
+        validarUrl();
+    }
+    public void loginComoPerformanceGlitchUser() {
+        loginPage.tentarLogin(Usuarios.PERFORMANCE_GLITCH_USER, Usuarios.PASSWORD);
+        validarUrl();
+    }
+    public void loginComoErrorUser() {
+        loginPage.tentarLogin(Usuarios.ERROR_USER, Usuarios.PASSWORD);
+        validarUrl();
+    }
+    public void loginComoVisualUser() {
+        loginPage.tentarLogin(Usuarios.VISUAL_USER, Usuarios.PASSWORD);
+        validarUrl();
+    }
+    public void validarUrl(){
+        String urlAtual = getDriver().getCurrentUrl();
+        Assertions.assertTrue(urlAtual.contains("inventory.html"));
+    }
 
 }
