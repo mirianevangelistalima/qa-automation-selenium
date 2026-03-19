@@ -47,5 +47,21 @@ public class ProductTest extends BaseTest {
         produtoPage.itensDoMenuResetAppState();
     }
 
+    @Test
+    public void t06_deveOrganizarPorZtoA() {
+        loginPage.loginComoStandardUser();
+        produtoPage.ordenarSelecionarZtoA();
+    }
 
+    @Test
+    public void t07_deveOrganizarPriceBaixoAoAlto() {
+        loginPage.loginComoStandardUser();
+        produtoPage.ordenarPorPriceBaixoAoAlto();
+
+    }
+    @Test
+    public void t08_deveOrganizarPorPriceAltoAoBaixo() {
+        loginPage.loginComoStandardUser();
+        produtoPage.ordenarPorPriceAltoAoBaixo();
+    }
 }
