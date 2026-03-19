@@ -99,7 +99,7 @@ public class ProductTest extends BaseTest {
     }
 
     @Test
-    public void t12_deveClicarNoTituloEAbrirMaisDetalhe() {
+    public void t12_deveAbrirDetalhesDoProduto() {
         loginPage.loginComoStandardUser();
         produtoPage.clicarNoTituloEAbrirMaisDetalhe("Sauce Labs Backpack");
     }

@@ -99,11 +99,10 @@ public class ProductPage extends BasePage {
     }
 
     public String getQuantidadeCarrinho() {
-        try {
-            return findElement(badgeCarrinho).getText();
-        } catch (Exception e) {
+        if (findElements(badgeCarrinho).isEmpty()) {
             return "";
         }
+        return findElements(badgeCarrinho).get(0).getText();
     }
 
     private By botaoAdicionarProduto(String productId) {
