@@ -13,7 +13,6 @@ public class LoginPage extends BasePage {
     private final By inputButtonLogin = By.id("login-button");
     private final By mensagemErro = By.xpath("//h3[@data-test='error']");
     private final By botaoFecharErro = By.cssSelector("[data-test='error-button']");
-    private final By botaoAddToCart = By.id("add-to-cart-sauce-labs-backpack");
 
     public void preencherUserName(String userName) {
         findElement(inputUserName).click();
