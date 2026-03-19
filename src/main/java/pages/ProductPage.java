@@ -12,76 +12,114 @@ import java.time.Duration;
 import static core.DriverFactory.getDriver;
 
 public class ProductPage extends BasePage {
-    //Menu
+
+    // Menu
     private final By botaoMenu = By.id("react-burger-menu-btn");
     private final By botaoFecharMenu = By.id("react-burger-cross-btn");
     private final By botaoAllItems = By.xpath("//a[contains(.,'All Items')]");
     private final By botaoAbout = By.xpath("//a[contains(.,'About')]");
     private final By botaoLogout = By.xpath("//a[contains(.,'Logout')]");
     private final By botaoResetAppState = By.xpath("//a[contains(.,'Reset App State')]");
-    //Ordenação
-    private final By abrirSelecaoOrdenacao = By.xpath("//span[contains(@class,'select_container')]");
-    private final By ordenarPorAtoZ = By.xpath("//span[contains(.,'Name (A to Z)')]");
-    private final By ordenarPorZtoA = By.xpath("//span[contains(.,'Name (Z to A)')]");
-    private final By ordenarPorPriceBaixoAoAlto = By.xpath("//span[contains(.,'Price (low to high)')]");
-    private final By ordenarPorPriceAltoAoBaixo = By.xpath("//span[contains(.,'Price (high to low)')]");
+    // Ordenação
+    private final By abrirSelecaoOrdenacao = By.className("product_sort_container");
+    // Cart
+    private final By botaoCart = By.id("shopping_cart_container");
+    private final By badgeCarrinho = By.className("shopping_cart_badge");
 
 
-    private final By botaoAddToCart = By.id("add-to-cart-sauce-labs-backpack");
-
-    public void abrirFecharMenu() {
+    public void abrirMenu() {
         findElement(botaoMenu).click();
-        findElement(botaoFecharMenu).click();
         shortWait(botaoFecharMenu);
     }
 
+    public void fecharMenu() {
+        findElement(botaoFecharMenu).click();
+    }
+
     public void itensDoMenuAllItems() {
-        abrirFecharMenu();
+        abrirMenu(); //chamar no test
         findElement(botaoAllItems).click();
     }
 
     public void itensDoMenuAbout() {
-        abrirFecharMenu();
+        abrirMenu();
         findElement(botaoAbout).click();
     }
 
     public void itensDoMenuLogout() {
-        abrirFecharMenu();
+        abrirMenu();
         findElement(botaoLogout).click();
     }
 
     public void itensDoMenuResetAppState() {
-        abrirFecharMenu();
+        abrirMenu();
         findElement(botaoResetAppState).click();
-    }
-
-    public void ordenarSelecionarZtoA() {
-        findElement(abrirSelecaoOrdenacao).click();
-        findElement(ordenarPorZtoA).click();
-        shortWait(ordenarPorZtoA);
-        ordenarSelecionarAtoZ();
     }
 
     public void ordenarSelecionarAtoZ() {
         findElement(abrirSelecaoOrdenacao).click();
-        findElement(ordenarPorAtoZ).click();
-        shortWait(ordenarPorAtoZ);
+        findElement(By.xpath("//option[contains(.,'Name (A to Z)')]")).click();
+    }
+
+    public void ordenarSelecionarZtoA() {
+        findElement(abrirSelecaoOrdenacao).click();
+        findElement(By.xpath("//option[contains(.,'Name (Z to A)')]")).click();
     }
 
     public void ordenarPorPriceBaixoAoAlto() {
         findElement(abrirSelecaoOrdenacao).click();
-        findElement(ordenarPorPriceBaixoAoAlto).click();
-        shortWait(ordenarPorPriceBaixoAoAlto);
+        findElement(By.xpath("//option[contains(.,'Price (low to high)')]")).click();
     }
 
     public void ordenarPorPriceAltoAoBaixo() {
         findElement(abrirSelecaoOrdenacao).click();
-        findElement(ordenarPorPriceAltoAoBaixo).click();
-        shortWait(ordenarPorPriceAltoAoBaixo);
+        findElement(By.xpath("//option[contains(.,'Price (high to low)')]")).click();
     }
 
-    private void shortWait(By EsperaPor) {
+    public void adicionarProdutoAoCarrinho(String productId) {
+        findElement(botaoAdicionarProduto(productId)).click();
+    }
+
+    public void removerProdutoDoCarrinho(String productId) {
+        findElement(botaoRemoverProduto(productId)).click();
+    }
+
+    public void adicionarMultiplosProdutosAoCarrinho(String... productIds) {
+        for (String productId : productIds) {
+            findElement(botaoAdicionarProduto(productId)).click();
+        }
+    }
+
+    public void clicarNoTituloEAbrirMaisDetalhe(String nomeProduto) {
+        findElement(linkTituloProduto(nomeProduto)).click();
+    }
+
+    public void clicarNoBotaoCart() {
+        findElement(botaoCart).click();
+    }
+
+    public String getQuantidadeCarrinho() {
+        try {
+            return findElement(badgeCarrinho).getText();
+        } catch (Exception e) {
+            return "";
+        }
+    }
+
+    private By botaoAdicionarProduto(String productId) {
+        return By.id("add-to-cart-" + productId);
+    }
+
+    private By botaoRemoverProduto(String productId) {
+        return By.id("remove-" + productId);
+    }
+
+    private By linkTituloProduto(String nomeProduto) {
+        return By.xpath("//a[.//div[text()='" + nomeProduto + "']]");
+    }
+
+    private void shortWait(By esperaPor) {
         Wait<WebDriver> wait = new WebDriverWait(getDriver(), Duration.ofSeconds(10));
-        wait.until(ExpectedConditions.visibilityOfElementLocated(EsperaPor));
+        wait.until(ExpectedConditions.visibilityOfElementLocated(esperaPor));
     }
 }

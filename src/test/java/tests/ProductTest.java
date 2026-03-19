@@ -8,6 +8,7 @@ import pages.LoginPage;
 import pages.ProductPage;
 
 import static core.DriverFactory.getDriver;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 @TestMethodOrder(MethodOrderer.MethodName.class)
 public class ProductTest extends BaseTest {
@@ -18,7 +19,8 @@ public class ProductTest extends BaseTest {
     @Test
     public void t01_deveAbrirMenu() {
         loginPage.loginComoStandardUser();
-        produtoPage.abrirFecharMenu();
+        produtoPage.abrirMenu();
+        produtoPage.fecharMenu();
     }
 
     @Test
@@ -57,11 +59,54 @@ public class ProductTest extends BaseTest {
     public void t07_deveOrganizarPriceBaixoAoAlto() {
         loginPage.loginComoStandardUser();
         produtoPage.ordenarPorPriceBaixoAoAlto();
-
     }
+
     @Test
     public void t08_deveOrganizarPorPriceAltoAoBaixo() {
         loginPage.loginComoStandardUser();
         produtoPage.ordenarPorPriceAltoAoBaixo();
+    }
+
+    @Test
+    public void t09_deveAdicionarProdutoAoCarrinho() {
+        loginPage.loginComoStandardUser();
+        produtoPage.adicionarProdutoAoCarrinho("sauce-labs-backpack");
+
+        assertEquals("1", produtoPage.getQuantidadeCarrinho());
+    }
+
+    @Test
+    public void t10_deveRemoverProdutoDoCarrinho() {
+        loginPage.loginComoStandardUser();
+        produtoPage.adicionarProdutoAoCarrinho("sauce-labs-backpack");
+        produtoPage.removerProdutoDoCarrinho("sauce-labs-backpack");
+
+        assertEquals("", produtoPage.getQuantidadeCarrinho());
+    }
+
+    @Test
+    public void t11_deveAdicionarMultiplosProdutosAoCarrinho() {
+        loginPage.loginComoStandardUser();
+        produtoPage.adicionarMultiplosProdutosAoCarrinho(
+                "sauce-labs-bike-light",
+                "sauce-labs-bolt-t-shirt",
+                "sauce-labs-fleece-jacket",
+                "sauce-labs-onesie",
+                "test.allthethings()-t-shirt-(red)"
+        );
+
+        assertEquals("5", produtoPage.getQuantidadeCarrinho());
+    }
+
+    @Test
+    public void t12_deveClicarNoTituloEAbrirMaisDetalhe() {
+        loginPage.loginComoStandardUser();
+        produtoPage.clicarNoTituloEAbrirMaisDetalhe("Sauce Labs Backpack");
+    }
+
+    @Test
+    public void t13_deveClicarNoBotaoCart() {
+        loginPage.loginComoStandardUser();
+        produtoPage.clicarNoBotaoCart();
     }
 }
