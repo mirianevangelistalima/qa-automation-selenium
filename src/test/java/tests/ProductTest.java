@@ -97,16 +97,4 @@ public class ProductTest extends BaseTest {
 
         assertEquals("5", produtoPage.getQuantidadeCarrinho());
     }
-
-    @Test
-    public void t12_deveAbrirDetalhesDoProduto() {
-        loginPage.loginComoStandardUser();
-        produtoPage.clicarNoTituloEAbrirMaisDetalhe("Sauce Labs Backpack");
-    }
-
-    @Test
-    public void t13_deveClicarNoBotaoCart() {
-        loginPage.loginComoStandardUser();
-        produtoPage.clicarNoBotaoCart();
-    }
 }

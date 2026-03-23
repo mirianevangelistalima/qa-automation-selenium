@@ -21,5 +21,11 @@ public class ProductDetailsPage extends BasePage {
     public boolean isBotaoRemoveVisivel() {
         return findElement(botaoRemoveProdutoCart).isDisplayed();
     }
+    public void clicarNoTituloEAbrirMaisDetalhe(String nomeProduto) {
+        findElement(linkTituloProduto(nomeProduto)).click();
+    }
 
+    private By linkTituloProduto(String nomeProduto) {
+        return By.xpath("//a[.//div[text()='" + nomeProduto + "']]");
+    }
 }

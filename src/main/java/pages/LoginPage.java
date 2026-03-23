@@ -2,7 +2,7 @@ package pages;
 
 import core.BasePage;
 import org.openqa.selenium.By;
-import utils.Usuarios;
+import data.UserData;
 
 
 import static core.DriverFactory.getDriver;
@@ -43,24 +43,24 @@ public class LoginPage extends BasePage {
     }
 
     public void loginComoStandardUser() {
-        tentarLogin(Usuarios.STANDARD_USER, Usuarios.PASSWORD);
+        tentarLogin(UserData.STANDARD_USER, UserData.PASSWORD);
     }
 
     public void naoDeveLogarComoLockedOutUser() {
-        tentarLogin(Usuarios.LOCKED_OUT_USER, Usuarios.PASSWORD);
+        tentarLogin(UserData.LOCKED_OUT_USER, UserData.PASSWORD);
     }
 
     public void loginComoProblemUser() {
-        tentarLogin(Usuarios.PROBLEM_USER, Usuarios.PASSWORD);
+        tentarLogin(UserData.PROBLEM_USER, UserData.PASSWORD);
     }
     public void loginComoPerformanceGlitchUser() {
-        tentarLogin(Usuarios.PERFORMANCE_GLITCH_USER, Usuarios.PASSWORD);
+        tentarLogin(UserData.PERFORMANCE_GLITCH_USER, UserData.PASSWORD);
     }
     public void loginComoErrorUser() {
-        tentarLogin(Usuarios.ERROR_USER, Usuarios.PASSWORD);
+        tentarLogin(UserData.ERROR_USER, UserData.PASSWORD);
     }
     public void loginComoVisualUser() {
-        tentarLogin(Usuarios.VISUAL_USER, Usuarios.PASSWORD);
+        tentarLogin(UserData.VISUAL_USER, UserData.PASSWORD);
     }
     public boolean estaNaPaginaDeProdutos(){
         return getDriver().getCurrentUrl().contains("inventory.html");

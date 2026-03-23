@@ -2,9 +2,6 @@ package tests;
 
 import org.junit.jupiter.api.*;
 import pages.LoginPage;
-import utils.Usuarios;
-
-import static core.DriverFactory.getDriver;
 
 @TestMethodOrder(MethodOrderer.MethodName.class)
 public class LoginTest extends BaseTest {

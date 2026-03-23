@@ -23,9 +23,7 @@ public class ProductPage extends BasePage {
     // Ordenação
     private final By abrirSelecaoOrdenacao = By.className("product_sort_container");
     // Cart
-    private final By botaoCart = By.id("shopping_cart_container");
     private final By badgeCarrinho = By.className("shopping_cart_badge");
-
 
     public void abrirMenu() {
         findElement(botaoMenu).click();
@@ -84,18 +82,11 @@ public class ProductPage extends BasePage {
         findElement(botaoRemoverProduto(productId)).click();
     }
 
+
     public void adicionarMultiplosProdutosAoCarrinho(String... productIds) {
         for (String productId : productIds) {
             findElement(botaoAdicionarProduto(productId)).click();
         }
-    }
-
-    public void clicarNoTituloEAbrirMaisDetalhe(String nomeProduto) {
-        findElement(linkTituloProduto(nomeProduto)).click();
-    }
-
-    public void clicarNoBotaoCart() {
-        findElement(botaoCart).click();
     }
 
     public String getQuantidadeCarrinho() {
@@ -111,10 +102,6 @@ public class ProductPage extends BasePage {
 
     private By botaoRemoverProduto(String productId) {
         return By.id("remove-" + productId);
-    }
-
-    private By linkTituloProduto(String nomeProduto) {
-        return By.xpath("//a[.//div[text()='" + nomeProduto + "']]");
     }
 
     private void shortWait(By esperaPor) {

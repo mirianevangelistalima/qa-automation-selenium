@@ -23,7 +23,7 @@ public class ProductDetailsTest extends  BaseTest {
 
     private void abrirDetalheDoProduto() {
         loginPage.loginComoStandardUser();
-        produtoPage.clicarNoTituloEAbrirMaisDetalhe(nomeProduto);
+        produtoDetalhesPage.clicarNoTituloEAbrirMaisDetalhe(nomeProduto);
         Assertions.assertTrue(getDriver().getCurrentUrl().contains("/inventory-item.html?id=3"));
     }
 
@@ -46,7 +46,6 @@ public class ProductDetailsTest extends  BaseTest {
         abrirDetalheDoProduto();
 
         produtoDetalhesPage.adicionarProdutoAoCarrinho();
-
         produtoDetalhesPage.removerProdutoDoCarrinho();
         assertEquals("", produtoPage.getQuantidadeCarrinho());
     }
