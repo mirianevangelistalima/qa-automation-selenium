@@ -1,93 +1,55 @@
 package tests;
 
-import org.junit.jupiter.api.*;
+import data.UserData;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.MethodOrderer;
+import org.junit.jupiter.api.TestMethodOrder;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.MethodSource;
 import pages.LoginPage;
+
+import java.util.stream.Stream;
+
+import org.junit.jupiter.params.provider.Arguments;
 
 @TestMethodOrder(MethodOrderer.MethodName.class)
 public class LoginTest extends BaseTest {
 
     LoginPage loginPage = new LoginPage();
 
-    @Test
-    public void t01_naoDeveLogarComCredenciaisInvalidas() {
-        var usuarioInexistente = "TESTE";
-        var senhaInexistente = "TESTE123";
-        var mensagemEsperada = "Epic sadface: Username and password do not match any user in this service";
-
-        loginPage.tentarLogin(usuarioInexistente, senhaInexistente);
-
-        Assertions.assertEquals(mensagemEsperada, loginPage.getMensagemErro());
-
-        loginPage.fecharMensagemErro();
+    // Cenários de login (usuário, senha, deveLogar, mensagemEsperada)
+    private static Stream<Arguments> cenariosLogin() {
+        /** Cenários de login que vou validar (positivo e negativo)
+         * */
+        return Stream.of(
+                Arguments.of(UserData.STANDARD_USER, UserData.PASSWORD, true, ""),
+                Arguments.of(UserData.PROBLEM_USER, UserData.PASSWORD, true, ""),
+                Arguments.of(UserData.PERFORMANCE_GLITCH_USER, UserData.PASSWORD, true, ""),
+                Arguments.of(UserData.ERROR_USER, UserData.PASSWORD, true, ""),
+                Arguments.of(UserData.VISUAL_USER, UserData.PASSWORD, true, ""),
+                Arguments.of(UserData.LOCKED_OUT_USER, UserData.PASSWORD, false, "Epic sadface: Sorry, this user has been locked out."),
+                Arguments.of("usuarioInexistente", "senhaInvalida", false, "Epic sadface: Username and password do not match any user in this service"),
+                Arguments.of("", "", false, "Epic sadface: Username is required"),
+                Arguments.of("", UserData.PASSWORD, false, "Epic sadface: Username is required"),
+                Arguments.of(UserData.STANDARD_USER, "", false, "Epic sadface: Password is required")
+        );
     }
 
-    @Test
-    public void t02_naoDeveLogarComCredenciaisVazias() {
-        var mensagemEsperada = "Epic sadface: Username is required";
+    @ParameterizedTest(name = "Login com usuário {0}")
+    @MethodSource("cenariosLogin")
+    void testLogin(String usuario, String senha, boolean deveLogar, String mensagemEsperada) {
+        // tenta logar com os dados do cenário, definido no cenariosLogin()
+        loginPage.tentarLogin(usuario, senha);
 
-        loginPage.tentarLogin("", "");
-
-        Assertions.assertEquals(mensagemEsperada, loginPage.getMensagemErro());
-
-        loginPage.fecharMensagemErro();
-    }
-
-    @Test
-    public void t03_naoDeveLogarSemUsuario() {
-        var mensagemEsperada = "Epic sadface: Username is required";
-
-        loginPage.tentarLogin("", "secret_sauce");
-
-        Assertions.assertEquals(mensagemEsperada, loginPage.getMensagemErro());
-
-        loginPage.fecharMensagemErro();
-    }
-
-    @Test
-    public void t04_naoDeveLogarSemSenha() {
-        var mensagemEsperada = "Epic sadface: Password is required";
-
-        loginPage.tentarLogin("standard_user", "");
-        Assertions.assertEquals(mensagemEsperada, loginPage.getMensagemErro());
-        loginPage.fecharMensagemErro();
-    }
-
-    @Test
-    public void t05_deveFazerLoginComCredenciaisValidasStandardUser() {
-        loginPage.loginComoStandardUser();
-        Assertions.assertTrue(loginPage.estaNaPaginaDeProdutos());
-    }
-
-    @Test
-    public void t06_naoDeveLogarComLockedOutUser() {
-        loginPage.naoDeveLogarComoLockedOutUser();
-        var mensagemEsperada = "Epic sadface: Sorry, this user has been locked out.";
-        Assertions.assertEquals(mensagemEsperada, loginPage.getMensagemErro());
-        loginPage.fecharMensagemErro();
-    }
-
-    @Test
-    public void t07_deveFazerLoginComCredenciaisValidasProblemUser() {
-        loginPage.loginComoProblemUser();
-        Assertions.assertTrue(loginPage.estaNaPaginaDeProdutos());
-    }
-
-    @Test
-    public void t08_deveFazerLoginComCredenciaisValidasPerformanceGlitchUser() {
-        loginPage.loginComoPerformanceGlitchUser();
-        Assertions.assertTrue(loginPage.estaNaPaginaDeProdutos());
-    }
-
-    @Test
-    public void t09_deveFazerLoginComCredenciaisValidasErrorUser() {
-        loginPage.loginComoErrorUser();
-        Assertions.assertTrue(loginPage.estaNaPaginaDeProdutos());
-
-    }
-
-    @Test
-    public void t10_deveFazerLoginComCredenciaisValidasVisualUser() {
-        loginPage.loginComoVisualUser();
-        Assertions.assertTrue(loginPage.estaNaPaginaDeProdutos());
+        if (deveLogar) {
+            // positivo:  login deu certo
+            Assertions.assertTrue(loginPage.estaNaPaginaDeProdutos(),
+                    "Login falhou para o usuário válido: " + usuario);
+        } else {
+            // negativo: valida mensagem exibida
+            Assertions.assertEquals(mensagemEsperada, loginPage.getMensagemErro(),
+                    "Mensagem de erro incorreta para o usuário: " + usuario);
+            loginPage.fecharMensagemErro();
+        }
     }
 }

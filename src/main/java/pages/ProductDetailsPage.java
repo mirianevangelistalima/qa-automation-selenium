@@ -2,6 +2,9 @@ package pages;
 
 import core.BasePage;
 import org.openqa.selenium.By;
+import org.openqa.selenium.NoSuchElementException;
+
+import static core.DriverFactory.getDriver;
 
 public class ProductDetailsPage extends BasePage {
     private final By botaoBackToProducts = By.id("back-to-products");
@@ -28,4 +31,12 @@ public class ProductDetailsPage extends BasePage {
     private By linkTituloProduto(String nomeProduto) {
         return By.xpath("//a[.//div[text()='" + nomeProduto + "']]");
     }
+    public boolean isBotaoRemovePresente() {
+        try {
+            return getDriver().findElement(By.id("remove")).isDisplayed();
+        } catch (NoSuchElementException e) {
+            return false;
+        }
+    }
+
 }

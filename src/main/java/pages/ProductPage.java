@@ -1,13 +1,16 @@
 package pages;
 
 import core.BasePage;
-import org.openqa.selenium.By;
-import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.*;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.Wait;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
 import java.time.Duration;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+import java.util.stream.Collectors;
 
 import static core.DriverFactory.getDriver;
 
@@ -95,6 +98,10 @@ public class ProductPage extends BasePage {
         }
         return findElements(badgeCarrinho).get(0).getText();
     }
+    public String pegarPrecoDoProduto(String nomeProduto) {
+        By preco = By.xpath("//div[text()='" + nomeProduto + "']/ancestor::div[@class='inventory_item']//div[@class='inventory_item_price']");
+        return findElement(preco).getText();
+    }
 
     private By botaoAdicionarProduto(String productId) {
         return By.id("add-to-cart-" + productId);
@@ -108,4 +115,28 @@ public class ProductPage extends BasePage {
         Wait<WebDriver> wait = new WebDriverWait(getDriver(), Duration.ofSeconds(10));
         wait.until(ExpectedConditions.visibilityOfElementLocated(esperaPor));
     }
+
+    public boolean isOrdenacaoAplicada() {
+        List<WebElement> elementosAntes = getDriver().findElements(By.className("inventory_item_name"));
+        List<String> nomesAntes = elementosAntes.stream()
+                .map(WebElement::getText)
+                .collect(Collectors.toList());
+
+        // aplica a ordenação
+        ordenarSelecionarAtoZ();
+
+        List<WebElement> elementosDepois = getDriver().findElements(By.className("inventory_item_name"));
+        List<String> nomesDepois = elementosDepois.stream()
+                .map(WebElement::getText)
+                .collect(Collectors.toList());
+
+        // se a lista mudou, a ordenação foi aplicada
+        return !nomesAntes.equals(nomesDepois);
+    }
+
+
+
+
+
+
 }
