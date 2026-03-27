@@ -2,9 +2,6 @@
 
 Automação de testes end-to-end simulando fluxo real de e-commerce (login → produtos → carrinho).
 
-##  Projeto em construção
-Este projeto está em evolução contínua, com foco em simular cenários reais de automação de testes (login, produtos, carrinho e checkout).
-
 ---
 
 ##  Objetivo do projeto
@@ -12,7 +9,8 @@ Este projeto está em evolução contínua, com foco em simular cenários reais 
 - Demonstrar na prática:
 - Estrutura com Page Object Model
 - Testes independentes e legíveis
-- Automação próxima de um cenário real
+- Automação próxima de um cenário real 
+- Cobertura de diferentes perfis de usuários
 
 ---
 
@@ -24,13 +22,24 @@ Este projeto está em evolução contínua, com foco em simular cenários reais 
 - [Selenium 4](https://www.selenium.dev/documentation/webdriver/troubleshooting/upgrade_to_selenium_4/)
 
 ---
+## Perfis de usuários testados
 
-##  O que esse projeto cobre:
+- **standard_user** → fluxo normal
+- **problem_user** → falhas em remoção de produto e inconsistências no carrinho
+- **error_user** → campos bugados no checkout (não inputa corretamente ou sobrescreve valores)
+- **visual_user** → preços incorretos exibidos
+- **performance_glitch_user** → lentidão no fluxo
 
--  Login (sucesso e falhas)
--  Validação de navegação
--  Adição de produto ao carrinho
--  Validação do carrinho
+---
+
+##  Fluxos cobertos
+
+- Login (sucesso e falha)
+- Validação de navegação
+- Adição e remoção de produtos
+- Validação de preços
+- Checkout (campos obrigatórios e inválidos)
+- Finalização da compra
 
 ---
 
@@ -44,10 +53,31 @@ Este projeto está em evolução contínua, com foco em simular cenários reais 
 -     └─ tests   # Testes automatizados
 ---
 
-##  Como rodar
+## ▶️ Como rodar
+
+### 1. Clonar o repositório
+```bash
+git clone https://github.com/seu-usuario/qa-web-automation-selenium-java.git
+cd qa-web-automation-selenium-java
+
+2. Instalar dependências
+
+Certifique-se de ter Java 17 e Gradle instalados.Para verificar:
+
+java -version
+gradle -v
+
+3. Rodar todos os testes
 
 ./gradlew test
 
+4. Rodar testes específicos
+
+./gradlew test --tests "tests.CheckoutTest"
+./gradlew test --tests "tests.FinishCartTest.t03_deveFinalizarCompraUsuariosValidos"
+
+```
+---
 ### Autora
 
 - Mirian Evangelista de Lima
