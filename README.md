@@ -1,6 +1,7 @@
 #  QA Automação-Selenium+Java
 
 Automação de testes end-to-end simulando fluxo real de e-commerce (login → produtos → carrinho).
+- TEST_PLAN.md
 
 ---
 
@@ -57,7 +58,7 @@ Automação de testes end-to-end simulando fluxo real de e-commerce (login → p
 
 ### 1. Clonar o repositório
 ```bash
-git clone https://github.com/seu-usuario/qa-web-automation-selenium-java.git
+git clone https://github.com/mirianevangelistalima/qa-automation-selenium.git
 cd qa-web-automation-selenium-java
 
 2. Instalar dependências
@@ -82,3 +83,5 @@ gradle -v
 
 - Mirian Evangelista de Lima
 - QA Analyst
+
+
